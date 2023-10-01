@@ -1,0 +1,38 @@
+version: '3' # composeファイルのバージョン
+services:
+  app: # サービス名
+    container_name: app
+    build: # ビルドに使うDockerファイルのパス
+      context: .
+      dockerfile: ./build/go/Dockerfile
+    volumes: # マウントディレクトリ
+      - ./app:/go/src/app
+    tty: true # コンテナの永続化
+    env_file: # .envファイル
+      - ./build/go/.go_env
+    environment:
+      TZ: Asia/Tokyo
+      DB_DBNAME: local
+      DB_PASSWORD: rootroot
+      DB_USERNAME: user
+      DB_HOSTNAME: mysql
+      DB_PORT: 3306
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./build/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: local
+      MYSQL_USER: user
+      MYSQL_PASSWORD: rootroot
+      MYSQL_ROOT_PASSWORD: rootroot
+    container_name: mysql
+    restart: always
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
