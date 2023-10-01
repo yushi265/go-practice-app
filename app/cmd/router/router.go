@@ -39,6 +39,10 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.PUT("/:userID", UpdateUserHandler)
 			apiUsers.DELETE("/:userID", DeleteUserHandler)
 		}
+		apiBlogs := api.Group("/blogs")
+		{
+			apiBlogs.POST("", PostBlogHandler)
+		}
 	}
 
 	// 8000番のポートを開く(*2)

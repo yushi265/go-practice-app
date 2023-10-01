@@ -14,5 +14,22 @@ type Blog struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
-	User      User
+}
+
+type CreateBlogParams struct {
+	UserID  int
+	Title   string
+	Content string
+}
+
+func CreateBlog(params CreateBlogParams) (*Blog, error) {
+	blog := Blog{
+		UserID:  params.UserID,
+		Title:   params.Title,
+		Content: params.Content,
+	}
+
+	err := db.Create(&blog).Error
+
+	return &blog, err
 }
