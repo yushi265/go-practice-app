@@ -3,7 +3,7 @@ package main
 import (
 	"example.com/todo-server/model"
 	"example.com/todo-server/router"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {

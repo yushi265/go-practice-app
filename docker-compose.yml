@@ -34,5 +34,3 @@ services:
       MYSQL_PASSWORD: rootroot
       MYSQL_ROOT_PASSWORD: rootroot
     container_name: mysql
-    restart: always
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
