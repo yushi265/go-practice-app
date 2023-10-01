@@ -38,11 +38,21 @@ func PostBlogHandler(c echo.Context) error {
 		Content: req.Content,
 	}
 
-	blog, err = model.CreateBlog(params)
+	blog, err = model.CreateBlog(params, *user)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Bad Request")
 	}
 
 	return c.JSON(http.StatusOK, blog)
+}
+
+func GetBlogsHandler(c echo.Context) error {
+	blogs, err := model.GetBlogs(c.QueryParam("user_id"))
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "Bad Request")
+	}
+
+	return c.JSON(http.StatusOK, blogs)
 }

@@ -21,9 +21,9 @@ func SetRouter(e *echo.Echo) error {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	// APIを書く場所
 	api := e.Group("/api")
 	{
+		// タスク
 		apiTasks := api.Group("/tasks")
 		{
 			apiTasks.GET("", GetTasksHandler)
@@ -31,6 +31,7 @@ func SetRouter(e *echo.Echo) error {
 			apiTasks.PUT("/:taskID", ChangeFinishedTaskHandler)
 			apiTasks.DELETE("/:taskID", DeleteTaskHandler)
 		}
+		// ユーザー
 		apiUsers := api.Group("/users")
 		{
 			apiUsers.GET("", GetUsersHandler)
@@ -39,8 +40,10 @@ func SetRouter(e *echo.Echo) error {
 			apiUsers.PUT("/:userID", UpdateUserHandler)
 			apiUsers.DELETE("/:userID", DeleteUserHandler)
 		}
+		// ブログ
 		apiBlogs := api.Group("/blogs")
 		{
+			apiBlogs.GET("", GetBlogsHandler)
 			apiBlogs.POST("", PostBlogHandler)
 		}
 	}
