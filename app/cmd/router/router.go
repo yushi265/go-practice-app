@@ -45,6 +45,9 @@ func SetRouter(e *echo.Echo) error {
 		{
 			apiBlogs.GET("", GetBlogsHandler)
 			apiBlogs.POST("", PostBlogHandler)
+			apiBlogs.PUT("/:blogID", PutBlogHandler)
+			apiBlogs.DELETE("/:blogID", DeleteBlogHandler)
+			apiBlogs.GET("/:blogID", GetBlogHandler)
 		}
 	}
 

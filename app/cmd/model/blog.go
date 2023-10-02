@@ -23,6 +23,11 @@ type CreateBlogParams struct {
 	Content string
 }
 
+type UpdateBlogParams struct {
+	Title   string
+	Content string
+}
+
 func CreateBlog(params CreateBlogParams, user User) (*Blog, error) {
 	blog := Blog{
 		UserID:  params.UserID,
@@ -48,4 +53,30 @@ func GetBlogs(userID string) ([]Blog, error) {
 	}
 
 	return blogs, err
+}
+
+func PutBlog(blogID int, params UpdateBlogParams) (*Blog, error) {
+	var blog Blog
+
+	err := db.Model(&Blog{}).Where("id = ?", blogID).Update("title", params.Title).Update("content", params.Content).Error
+
+	if err != nil {
+		return &blog, err
+	}
+
+	err = db.Preload("User").Where("id = ?", blogID).First(&blog).Error
+
+	return &blog, err
+}
+
+func DeleteBlog(blogID int) error {
+	return db.Delete(&Blog{}, blogID).Error
+}
+
+func GetBlog(blogID int) (*Blog, error) {
+	var blog *Blog
+
+	err := db.Preload("User").Where("id = ?", blogID).First(&blog).Error
+
+	return blog, err
 }
